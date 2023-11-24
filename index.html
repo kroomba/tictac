@@ -19,9 +19,9 @@
 
     #game-container {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: space-between;
-      flex-direction: row;
+      justify-content: center;
     }
 
     #board {
@@ -87,7 +87,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-left: 20px;
+      margin-top: 20px;
     }
 
     #color-picker-X, #color-picker-O, #color-picker-Z {
@@ -144,6 +144,17 @@
       0% { transform: scale(1); }
       50% { transform: scale(1.2); }
       100% { transform: scale(1); }
+    }
+
+    /* Media Queries */
+    @media screen and (max-width: 600px) {
+      #game-container {
+        margin-top: 20px;
+      }
+
+      #settings {
+        margin-top: 10px;
+      }
     }
   </style>
   <title>Tic Tac</title>
