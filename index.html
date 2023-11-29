@@ -220,11 +220,11 @@
   function handleCellClick(event) {
     const index = event.target.dataset.index;
 
-    if (gameBoard[index] === '' && gameActive && !occupiedSquares.includes(index)) {
+    if (gameBoard[index] === '' && gameActive) {
       gameBoard[index] = currentPlayer;
       event.target.textContent = currentPlayer;
       event.target.classList.add(currentPlayer);
-      occupiedSquares.push(index);
+      occupiedSquares.push({ index, player: currentPlayer });
 
       if (checkWin()) {
         message.textContent = `${currentPlayer} wins!`;
@@ -237,6 +237,28 @@
         gameActive = false;
       } else {
         currentPlayer = getNextPlayer();
+      }
+    } else if (gameBoard[index] !== '' && gameActive) {
+      const occupiedSquare = occupiedSquares.find(square => square.index == index);
+
+      if (occupiedSquare && occupiedSquare.player !== currentPlayer) {
+        gameBoard[index] = currentPlayer;
+        event.target.textContent = currentPlayer;
+        event.target.classList.add(currentPlayer);
+        occupiedSquares = occupiedSquares.filter(square => square.index != index);
+
+        if (checkWin()) {
+          message.textContent = `${currentPlayer} wins!`;
+          event.target.style.animation = 'winAnimation 0.5s ease-out';
+          gameActive = false;
+          wins[currentPlayer]++;
+          updateScoreboard();
+        } else if (gameBoard.every(cell => cell !== '')) {
+          message.textContent = 'It\'s a tie!';
+          gameActive = false;
+        } else {
+          currentPlayer = getNextPlayer();
+        }
       }
     }
   }
