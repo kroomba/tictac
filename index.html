@@ -192,7 +192,7 @@
   let threePlayerMode = false;
   let gameActive = true;
   let wins = { X: 0, O: 0, Z: 0 };
-  let occupiedCells = [];
+  let occupiedSquares = [];
 
   // Create the Tic Tac board
   for (let i = 0; i < 4; i++) {
@@ -220,11 +220,11 @@
   function handleCellClick(event) {
     const index = event.target.dataset.index;
 
-    if (gameBoard[index] === '' && gameActive && !occupiedCells.includes(index)) {
+    if (gameBoard[index] === '' && gameActive && !occupiedSquares.includes(index)) {
       gameBoard[index] = currentPlayer;
-      occupiedCells.push(index);
       event.target.textContent = currentPlayer;
       event.target.classList.add(currentPlayer);
+      occupiedSquares.push(index);
 
       if (checkWin()) {
         message.textContent = `${currentPlayer} wins!`;
@@ -256,8 +256,8 @@
     gameActive = true;
     message.textContent = '';
     clearBoard();
+    occupiedSquares = [];
     updateScoreboard();
-    occupiedCells = [];
   }
 
   function clearBoard() {
